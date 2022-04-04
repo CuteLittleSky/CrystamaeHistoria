@@ -22,3 +22,12 @@ jobs:
           cache: 'maven'
       - name: Build with Maven
         run: mvn package --file pom.xml
+      - uses: actions/cache@v2
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - uses: actions/upload-artifact@v2
+        with:
+          name: CrystamaeHistoria.jar
+          path: staging
