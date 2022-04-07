@@ -1884,7 +1884,9 @@ public class CrystaStacks {
             ThemeType.MECHANISM,
             "棱镜镀金器",
             "将棱镜水晶转换为薄膜",
-            "可以覆盖在其他魔法物品上"
+            "可以覆盖在其他魔法物品上",
+            "",
+            ThemeType.CLICK_INFO.getColor() + "需要: 故事等级 达到 荣誉教授"
         );
 
         // Tools
