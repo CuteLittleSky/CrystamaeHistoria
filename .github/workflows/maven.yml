@@ -1,4 +1,4 @@
-name: Java CI
+name: SKYCRAFT 自动构建/发版
 
 on:
   push:
@@ -31,3 +31,11 @@ jobs:
         with:
           name: CrystamaeHistoria.jar
           path: staging
+      - name: Automatic Releases
+        uses: marvinpinto/action-automatic-releases@v1.2.1
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "SKYCRAFT"
+          title: "SKYCRAFT 自动构建/发版"
+          files: |
+            target/CrystamaeHistoria-*.jar
