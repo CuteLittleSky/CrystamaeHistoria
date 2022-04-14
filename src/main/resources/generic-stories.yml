@@ -300,7 +300,7 @@ MYTHICAL:
       - 会轻易地消磨精神.
 
   Lead into Gold:
-    name: Lead into Gold
+    name: 点石成金
     type: ALCHEMICAL
     shards: [ 0,0,1,0,1,0,1,0,0 ]
     lore:
