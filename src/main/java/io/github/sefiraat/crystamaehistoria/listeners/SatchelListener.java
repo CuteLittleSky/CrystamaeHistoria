@@ -39,6 +39,12 @@ public class SatchelListener implements Listener {
                 // Try to pick up the item into a dank first
                 if (satchelSfItem instanceof CrystamageSatchel) {
                     final CrystamageSatchel crystamageSatchel = (CrystamageSatchel) satchelSfItem;
+
+                    if (possibleSatchel.getAmount() > 1) {
+                        player.sendMessage(ThemeType.WARNING.getColor() + "你拥有堆叠的水晶收纳袋, 需要将他们分开才可以正常使用.");
+                        return;
+                    }
+
                     if (crystamageSatchel.tryAddItem(possibleSatchel, itemStack, crystal)) {
                         final java.awt.Color baseColor = ThemeType.getByType(crystal.getType()).getColor().getColor();
                         final Color color = Color.fromRGB(baseColor.getRed(), baseColor.getGreen(), baseColor.getBlue());
@@ -48,6 +54,8 @@ public class SatchelListener implements Listener {
                         item.remove();
                         e.setCancelled(true);
                         return;
+                    } else {
+                        player.sendMessage(ThemeType.WARNING.getColor() + "你的水晶收纳袋还没有初始化, 需要打开一次.");
                     }
                 }
             }
