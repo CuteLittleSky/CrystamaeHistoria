@@ -32,7 +32,7 @@ import io.github.sefiraat.crystamaehistoria.slimefun.items.mechanisms.chronicler
 import io.github.sefiraat.crystamaehistoria.slimefun.items.mechanisms.chroniclerpanel.ChroniclerPanelCache;
 import io.github.sefiraat.crystamaehistoria.stories.BlockDefinition;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
-import net.guizhanss.guizhanlib.updater.GuizhanBuildsUpdater;
+import io.github.thebusybiscuit.slimefun4.libraries.paperlib.PaperLib;
 import org.apache.commons.lang.Validate;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.AdvancedPie;
@@ -149,6 +149,20 @@ public class CrystamaeHistoria extends AbstractAddon {
         getLogger().info(" 作者: Sefiraat 汉化: SlimefunGuguProject");
         getLogger().info("########################################");
 
+        if (PaperLib.isSpigot() && !PaperLib.isPaper()) {
+            getLogger().warning("==========================================");
+            getLogger().warning("魔法水晶编年史使用了部分 Paper 的特性");
+            getLogger().warning("需要 Paper 以及衍生服务端才能运行");
+            getLogger().warning("");
+            getLogger().warning("Spigot 服务端无法运行魔法水晶编年史");
+            getLogger().warning("请切换至 Paper 以及衍生服务端");
+            getLogger().warning("==========================================");
+
+            instance = null;
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
         this.configManager = new ConfigManager();
         this.storiesManager = new StoriesManager();
         this.listenerManager = new ListenerManager();
@@ -218,13 +232,15 @@ public class CrystamaeHistoria extends AbstractAddon {
 
     @Override
     protected void disable() {
-        for (ChroniclerPanelCache cache : ChroniclerPanel.getCaches().values()) {
-            cache.shutdown();
-        }
+        if (instance != null) {
+            for (ChroniclerPanelCache cache : ChroniclerPanel.getCaches().values()) {
+                cache.shutdown();
+            }
 
-        spellMemory.clearAll();
-        configManager.saveAll();
-        instance = null;
+            spellMemory.clearAll();
+            configManager.saveAll();
+            instance = null;
+        }
     }
 
     private void setupSlimefun() {
