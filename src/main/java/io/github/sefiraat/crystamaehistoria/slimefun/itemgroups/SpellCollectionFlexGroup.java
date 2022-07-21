@@ -19,10 +19,10 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import net.guizhanss.guizhanlib.minecraft.helper.potion.PotionEffectTypeHelper;
-import net.guizhanss.minecraft.crystamaehistoria.utils.GuiItems;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -109,8 +109,18 @@ public class SpellCollectionFlexGroup extends FlexItemGroup {
 
         reapplyFooter(player, profile, mode, menu, page, totalPages);
 
+        // Sound
+        menu.addMenuOpeningHandler((p) -> p.playSound(p.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, 1.0F, 1.0F));
+
         // Back
-        menu.replaceExistingItem(GUIDE_BACK, GuiItems.getBackButton(player));
+        menu.replaceExistingItem(
+            GUIDE_BACK,
+            ChestMenuUtils.getBackButton(
+                player,
+                "",
+                ChatColor.GRAY + Slimefun.getLocalization().getMessage(player, "guide.back.guide")
+            )
+        );
         menu.addMenuClickHandler(GUIDE_BACK, (player1, slot, itemStack, clickAction) -> {
             SlimefunGuide.openItemGroup(profile, ItemGroups.MAIN, mode, 1);
             return false;
@@ -147,8 +157,18 @@ public class SpellCollectionFlexGroup extends FlexItemGroup {
     @ParametersAreNonnullByDefault
     private void displayDefinition(Player p, PlayerProfile profile, SlimefunGuideMode mode, ChestMenu menu, int returnPage, SpellType spellType) {
         final Spell spell = spellType.getSpell();
-        // Back Button
-        menu.replaceExistingItem(GUIDE_BACK, GuiItems.getBackButton(p));
+        // Sound
+        menu.addMenuOpeningHandler((player) -> player.playSound(p.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, 1.0F, 1.0F));
+
+        // Back
+        menu.replaceExistingItem(
+            GUIDE_BACK,
+            ChestMenuUtils.getBackButton(
+                p,
+                "",
+                ChatColor.GRAY + Slimefun.getLocalization().getMessage(p, "guide.back.guide")
+            )
+        );
         menu.addMenuClickHandler(GUIDE_BACK, (player1, slot, itemStack, clickAction) -> {
             setupPage(player1, profile, mode, menu, returnPage);
             return false;
